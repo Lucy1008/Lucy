@@ -1,0 +1,27 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Generate some sample data
+np.random.seed(42)
+data = pd.DataFrame({
+    'X': np.random.normal(0, 1, 1000),
+    'Y': np.random.normal(0, 1, 1000)
+})
+
+# Perform K-means clustering
+kmeans = KMeans(n_clusters=4, random_state=42)
+data['Cluster'] = kmeans.fit_predict(data[['X', 'Y']])
+
+# Visualize the clusters
+plt.figure(figsize=(8, 6))
+for cluster in data['Cluster'].unique():
+    plt.scatter(data[data['Cluster'] == cluster]['X'],
+                data[data['Cluster'] == cluster]['Y'],
+                label=f'Cluster {cluster}')
+plt.title('K-means Clustering')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.show()
